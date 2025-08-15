@@ -41,6 +41,7 @@ def cluster_requests(requests: List[WasteCollectionRequestModel], opts: ClusterO
     # If DBSCAN failed (all noise) → KMeans
     if (set(labels) == {-1}) or (len(set([l for l in labels if l != -1])) == 0):
         # pick k using capacity first, then resource caps
+        print("DBSCAN failed! Use KMeans")
         k_guess = suggested_k_by_cap if suggested_k_by_cap is not None else available_resources
         k = apply_k_constraints(k_guess, available_resources, max_clusters)
         labels = run_kmeans(coords, k)
